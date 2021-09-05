@@ -383,6 +383,7 @@ wget -O running "https://raw.githubusercontent.com/hesoyam-oke/project/main/runn
 wget -O cfd "https://raw.githubusercontent.com/hesoyam-oke/project/main/cfd.sh"
 wget -O cff "https://raw.githubusercontent.com/hesoyam-oke/project/main/cff.sh"
 wget -O cfh "https://raw.githubusercontent.com/hesoyam-oke/project/main/cfh.sh"
+wget -O bw "https://raw.githubusercontent.com/hesoyam-oke/project/min/bw.sh
 chmod +x menu
 chmod +x l2tp
 chmod +x ssh
@@ -429,6 +430,7 @@ chmod +x running
 chmod +x cfd
 chmod +x cff
 chmod +x cfh
+chmod +x bw
 echo "0 5 * * * root clear-log" >> /etc/crontab
 echo "0 0 * * * root xp" >> /etc/crontab
 # remove unnecessary files
