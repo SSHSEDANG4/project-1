@@ -390,7 +390,7 @@ wget -O running "https://raw.githubusercontent.com/hesoyam-oke/project/main/runn
 wget -O cfd "https://raw.githubusercontent.com/hesoyam-oke/project/main/cfd.sh"
 wget -O cff "https://raw.githubusercontent.com/hesoyam-oke/project/main/cff.sh"
 wget -O cfh "https://raw.githubusercontent.com/hesoyam-oke/project/main/cfh.sh"
-wget -O bw "https://raw.githubusercontent.com/hesoyam-oke/project/min/bw.sh
+wget -O bw "https://raw.githubusercontent.com/hesoyam-oke/project/main/bw.sh"
 chmod +x menu
 chmod +x l2tp
 chmod +x ssh
