@@ -12,7 +12,7 @@ else
     typevps="KVM"
 fi
 clear
-figlet Status Service | lolcat
+
 # Getting OS Information
 source /etc/os-release
 Versi_OS=$VERSION
@@ -281,6 +281,7 @@ Domen="$(cat /etc/v2ray/domain)"
 
 # Echoing Result
 echo -e ""
+figlet    Status Service | lolcat
 echo -e "In Here Is Your VPS Information : " | lolcat 
 echo "-------------------------------------------------------------------------------" | lolcat 
 echo "Operating System Information :" | lolcat 
