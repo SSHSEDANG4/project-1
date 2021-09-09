@@ -12,7 +12,7 @@ else
     typevps="KVM"
 fi
 clear
-
+figlet Status Service | lolcat
 # Getting OS Information
 source /etc/os-release
 Versi_OS=$VERSION
@@ -289,7 +289,6 @@ echo -e "OS Arch     : $tipeos2"
 echo -e "Hostname    : $HOSTNAME"
 echo -e "OS Name     : $Tipe"
 echo -e "OS Version  : $Versi_OS"
-echo -e "OS URL      : $URL_SUPPORT"
 echo -e "OS BASE     : $basedong"
 echo -e "OS TYPE     : Linux / Unix"
 echo -e "Bash Ver    : $versibash"
@@ -302,7 +301,6 @@ echo -e "Domain      : $Domen"
 echo -e "ISP Name    : $NAMAISP"
 echo -e "Region      : $REGION "
 echo -e "Country     : $COUNTRY"
-echo -e "City        : $CITY "
 echo -e "Time Zone   : $WAKTUE"
 echo -e "Date        : $harini"
 echo -e "Time        : $jam ( WIB )"
