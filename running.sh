@@ -5,15 +5,11 @@ MYIP=$(wget -qO- icanhazip.com);
 # VPS Information
 Checkstart1=$(ip route | grep default | cut -d ' ' -f 3 | head -n 1);
 if [[ $Checkstart1 == "venet0" ]]; then 
-    #clear
 	  lan_net="venet0"
     typevps="OpenVZ"
-    sleep 1
 else
-    #clear
 		lan_net="eth0"
     typevps="KVM"
-    sleep 1
 fi
 
 # Getting OS Information
@@ -49,6 +45,7 @@ echo -e "$NC"
 l2tp_status=$(systemctl status xl2tpd | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
 openvpn_service="$(systemctl show openvpn.service --no-page)"
 oovpn=$(echo "${openvpn_service}" | grep 'ActiveState=' | cut -f2 -d=)
+status="$(systemctl show shadowsocks-libev.service --no-page)"
 status_text=$(echo "${status}" | grep 'ActiveState=' | cut -f2 -d=)
 tls_v2ray_status=$(systemctl status v2ray | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
 nontls_v2ray_status=$(systemctl status v2ray@none | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
@@ -83,149 +80,149 @@ LIGHT='\033[0;37m'
 
 # Status Service OpenVPN
 if [[ $oovpn == "active" ]]; then
-  status_openvpn="${GREEN}OpenVPN Service Is Running ${NC}( Aktif )"
+  status_openvpn="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-  status_openvpn="${RED}OpenVPN Service Is Not Running ${NC}( Not Aktif )"
+  status_openvpn="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service  SSH 
 if [[ $ssh_service == "running" ]]; then 
-   status_ssh="${GREEN}SSH/Tunnel Service Is Running ${NC}( Aktif )"
+   status_ssh="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_ssh="${RED}SSH/Tunnel Service Is Not Running ${NC}( Not Aktif )"
+   status_ssh="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service  Squid 
 if [[ $squid_service == "running" ]]; then 
-   status_squid="${GREEN}Squid Service Is Running ${NC}( Aktif )"
+   status_squid="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_squid="${RED}Squid Service Is Not Running ${NC}( Not Aktif )"
+   status_squid="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service  VNSTAT 
 if [[ $vnstat_service == "running" ]]; then 
-   status_vnstat="${GREEN}Vnstat Service Is Running ${NC}( Aktif )"
+   status_vnstat="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_vnstat="${RED}Vnstat Service Is Not Running ${NC}( Not Aktif )"
+   status_vnstat="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service  Crons 
 if [[ $cron_service == "running" ]]; then 
-   status_cron="${GREEN}Crons Service Is Running ${NC}( Aktif )"
+   status_cron="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_cron="${RED}Crons Service Is Not Running ${NC}( Not Aktif )"
+   status_cron="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service  Fail2ban 
 if [[ $fail2ban_service == "running" ]]; then 
-   status_fail2ban="${GREEN}Fail2Ban Service Is Running ${NC}( Aktif )"
+   status_fail2ban="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_fail2ban="${RED}Fail2Ban Service Is Not Running ${NC}( Not Aktif )"
+   status_fail2ban="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service  TLS 
 if [[ $tls_v2ray_status == "running" ]]; then 
-   status_tls_v2ray="${GREEN}V2Ray HTTPS Service Is Running${NC} ( Aktif )"
+   status_tls_v2ray="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_tls_v2ray="${RED}V2Ray HTTPS Service Is Not Running${NC} ( Not Aktif )"
+   status_tls_v2ray="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Non TLS V2Ray
 if [[ $nontls_v2ray_status == "running" ]]; then 
-   status_nontls_v2ray="${GREEN}V2Ray HTTP Service Is Running ${NC}( Aktif )${NC}"
+   status_nontls_v2ray="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_nontls_v2ray="${RED}V2Ray HTTP Service Is Not Running ${NC}( Not Aktif )${NC}"
+   status_nontls_v2ray="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Vless HTTPS
 if [[ $vless_tls_v2ray_status == "running" ]]; then
-  status_tls_vless="${GREEN}Vless HTTPS Service Is Running${NC} ( Aktif )"
+  status_tls_vless="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-  status_tls_vless="${RED}Vless HTTPS Service Is Not Running ${NC}( Not Aktif )${NC}"
+  status_tls_vless="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Vless HTTP
 if [[ $vless_nontls_v2ray_status == "running" ]]; then
-  status_nontls_vless="${GREEN}Vless HTTP Service Is Running${NC} ( Aktif )"
+  status_nontls_vless="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-  status_nontls_vless="${RED}Vless HTTP Service Is Not Running ${NC}( Not Aktif )${NC}"
+  status_nontls_vless="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # ShadowsocksR Status
 if [[ $ssr_status == "running" ]] ; then
-  status_ssr="${GREEN}SSR Service Is Running${NC} ( Aktif )${NC}"
+  status_ssr="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-  status_ssr="${RED}SSR Service Is Not Running ${NC}( Not Aktif )${NC}"
+  status_ssr="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Sodosok
 if [[ $status_text == "active" ]] ; then
-  status_sodosok="${GREEN}Shadowsock Service Is Running${NC} ( Aktif )${NC}"
+  status_sodosok="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-  status_sodosok="${RED}Shadowsocks Service Is Not Running ${NC}( Not Aktif )${NC}"
+  status_sodosok="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Trojan
 if [[ $trojan_server == "running" ]]; then 
-   status_virus_trojan="${GREEN}Trojan Service Is Running ${NC}( Aktif )${NC}"
+   status_virus_trojan="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_virus_trojan="${RED}Trojan Service Is Not Running ${NC}( Not Aktif )${NC}"
+   status_virus_trojan="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Wireguard
 if [[ $swg == "active" ]]; then
-  status_wg="${GREEN}Wireguard Service Is Running ${NC}( Aktif )${NC}"
+  status_wg="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-  status_wg="${RED}Wireguard Service Is Not Running ${NC}( Not Aktif )${NC}"
+  status_wg="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service L2TP
 if [[ $l2tp_status == "running" ]]; then 
-   status_l2tp="${GREEN}L2TP Service Is Running${NC} ( Aktif )${NC}"
+   status_l2tp="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_l2tp="${RED}L2TP Service Is Not Running${NC}( Not Aktif )${NC}"
+   status_l2tp="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Dropbear
 if [[ $dropbear_status == "running" ]]; then 
-   status_beruangjatuh="${GREEN}Dropbear Service Is Running${NC} ( Aktif )${NC}"
+   status_beruangjatuh="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_beruangjatuh="${RED}Dropbear Service Is Not Running ${NC}( Not Aktif )${NC}"
+   status_beruangjatuh="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Stunnel
 if [[ $stunnel_service == "running" ]]; then 
-   status_stunnel="${GREEN}Stunnel Service Is Running ${NC}( Aktif )"
+   status_stunnel="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_stunnel="${RED}Stunnel Service Is Not Running ${NC}( Not Aktif )}"
+   status_stunnel="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service SSTP
 if [[ $sstp_service == "running" ]]; then 
-   status_sstp="${GREEN}SSTP Service Is Running ${NC}( Aktif )"
+   status_sstp="${GREEN}Service Is Running ${NC}[Aktif]"
 else
-   status_sstp="${RED}SSTP Service Is Not Running ${NC}( Not Aktif )"
+   status_sstp="${RED}Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Ws-Dropbear
 if [[ $wsdrop == "running" ]]; then 
-   wsdrop="${GREEN} Service Is Running ${NC}( Aktif )"
+   wsdrop="${GREEN} Service Is Running ${NC}[Aktif]"
 else
-   wsdrop="${RED} Service Is Not Running ${NC}( Not Aktif )"
+   wsdrop="${RED} Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service Ws-Stunnel
 if [[ $wstls == "running" ]]; then 
-   wstls="${GREEN} Service Is Running ${NC}( Aktif )"
+   wstls="${GREEN} Service Is Running ${NC}[Aktif]"
 else
-   wstls="${RED} Service Is Not Running ${NC}( Not Aktif )"
+   wstls="${RED} Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Status Service ws-Ovpn 
 if [[ $wsovpn == "running" ]]; then 
-   wsovpn="${GREEN} Service Is Running ${NC}( Aktif )"
+   wsovpn="${GREEN} Service Is Running ${NC}[Aktif]"
 else
-   wsovpn="${RED} Service Is Not Running ${NC}( Not Aktif )"
+   wsovpn="${RED} Service Is Not Running ${NC}[Not Aktif]"
 fi
 
 # Ram Usage
@@ -311,9 +308,9 @@ echo -e "Time        : $jam ( WIB )"
 echo "-------------------------------------------------------------------------------" | lolcat 
 echo "========================[System Status Information]============================" | lolcat 
 echo -e "SSH / Tun           : $status_ssh"
-echo -e "WebSocket Dropbear  : $wsdrop"
-echo -e "WebSocket OpenVPN   : $wsovpn"
-echo -e "WebSocket TLS       : $wstls"
+echo -e "WebSocket Dropbear  :$wsdrop"
+echo -e "WebSocket OpenVPN   :$wsovpn"
+echo -e "WebSocket TLS       :$wstls"
 echo -e "OpenVPN             : $status_openvpn"
 echo -e "Dropbear            : $status_beruangjatuh"
 echo -e "Stunnel             : $status_stunnel"
