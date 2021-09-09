@@ -5,12 +5,12 @@ MYIP=$(wget -qO- icanhazip.com);
 # VPS Information
 Checkstart1=$(ip route | grep default | cut -d ' ' -f 3 | head -n 1);
 if [[ $Checkstart1 == "venet0" ]]; then 
-    clear
+    #clear
 	  lan_net="venet0"
     typevps="OpenVZ"
     sleep 1
 else
-    clear
+    #clear
 		lan_net="eth0"
     typevps="KVM"
     sleep 1
@@ -46,35 +46,34 @@ NC='\033[0m'
 echo -e "$NC"
 
 # Chek Status 
-l2tp_status=$(systemctl status xl2tpd | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-openvpn_service="$(systemctl show openvpn.service --no-page)"
-oovpn=$(echo "${openvpn_service}" | grep 'ActiveState=' | cut -f2 -d=)
-#status_openvp=$(/etc/init.d/openvpn status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-#status_ss_tls="$(systemctl show shadowsocks-libev-server@tls.service --no-page)"
-#ss_tls=$(echo "${status_ss_tls}" | grep 'ActiveState=' | cut -f2 -d=)
-#sssotl=$(systemctl status shadowsocks-libev-server@*-tls | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1) 
-#status_ss_http="$(systemctl show shadowsocks-libev-server@http.service --no-page)"
-#ss_http=$(echo "${status_ss_http}" | grep 'ActiveState=' | cut -f2 -d=)
-#sssohtt=$(systemctl status shadowsocks-libev-server@*-http | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-status="$(systemctl show shadowsocks-libev.service --no-page)"
-status_text=$(echo "${status}" | grep 'ActiveState=' | cut -f2 -d=)
-tls_v2ray_status=$(systemctl status v2ray | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-nontls_v2ray_status=$(systemctl status v2ray@none | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-vless_tls_v2ray_status=$(systemctl status v2ray@vless | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-vless_nontls_v2ray_status=$(systemctl status v2ray@vnone | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-ssr_status=$(systemctl status ssrmu | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-trojan_server=$(systemctl status trojan | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-dropbear_status=$(/etc/init.d/dropbear status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-stunnel_service=$(/etc/init.d/stunnel4 status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-sstp_service=$(systemctl status accel-ppp | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-squid_service=$(/etc/init.d/squid status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-ssh_service=$(/etc/init.d/ssh status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-vnstat_service=$(/etc/init.d/vnstat status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-cron_service=$(/etc/init.d/cron status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-fail2ban_service=$(/etc/init.d/fail2ban status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-wg="$(systemctl show wg-quick@wg0.service --no-page)"
-swg=$(echo "${wg}" | grep 'ActiveState=' | cut -f2 -d=)
-sswg=$(systemctl status wg-quick@wg0 | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+wsdrop=$(systemctl status ws-dropbear | grep -i "active (running)")
+wstls=$(systemctl status ws-stunnel | grep -i "active (running)")
+#wsopen=$(systemctl status ws-openssh | grep -i "active (running)")
+wsovpn=$(systemctl status edu-ovpn | grep -i "active (running)")
+
+v2ray=$(systemctl status v2ray | grep -i "active (running)")
+v2none=$(systemctl status v2ray@none | grep -i "active (running)")
+vless=$(systemctl status v2ray@vless | grep -i "active (running)")
+vnone=$(systemctl status v2ray@vnone | grep -i "active (running)")
+trojan=$(systemctl status trojan | grep -i "active (running)")
+#trojang=$(systemctl status trojan-go | grep -i "active (running)")
+ipsec=$(systemctl status ipsec | grep -i "active (running)")
+shadow=$(systemctl status shadowsocks-libev | grep -i "active (running)")
+ssr=$(systemctl status ssrmu | grep -i "active (running)")
+sstp=$(systemctl status accel-ppp | grep -i "active (running)")
+l2tp=$(systemctl status xl2tpd | grep -i "active (running)")
+pptp=$(systemctl status pptpd | grep -i "active (running)")
+wg=$(systemctl status wg-quick@wg0 | grep -i "active (exited)")
+
+ssh=$(systemctl status ssh | grep -i "active (running)")
+ssl=$(systemctl status stunnel4 | grep -i "active (running)")
+drop=$(systemctl status dropbear | grep -i "active (running)")
+ovpn=$(systemctl status openvpn | grep -i "active (exited)")
+nginx=$(systemctl status nginx | grep -i "active (running)")
+squid=$(systemctl status squid | grep -i "active (running)")
+cron=$(systemctl status cron | grep -i "active (running)")
+fail2ban=$(systemctl status fail2ban | grep -i "active (running)")
+vnstat=$(systemctl status vnstat | grep -i "active (running)")
 
 # Color Validation
 RED='\033[0;31m'
@@ -87,143 +86,263 @@ CYAN='\033[0;36m'
 LIGHT='\033[0;37m'
 clear
 
-# Status Service OpenVPN
-if [[ $oovpn == "active" ]]; then
-  status_openvpn="${GREEN}OpenVPN Service Is Running ${NC}( Aktif )"
+if [[ $wsdrop == "" ]]; then
+      swsdrop=$ERROR
+      ingfo+=("WebSocket Dropbear")
+      dahlah+=("err1")
 else
-  status_openvpn="${RED}OpenVPN Service Is Not Running ${NC}( Not Aktif )"
+      swsdrop=$AKTIF
+      mantap+=("hore1")
 fi
 
-# Status Service  SSH 
-if [[ $ssh_service == "running" ]]; then 
-   status_ssh="${GREEN}SSH/Tunnel Service Is Running ${NC}( Aktif )"
+if [[ $wstls == "" ]]; then
+      swstls=$ERROR
+      ingfo+=("WebSocket TLS")
+      dahlah+=("err2")
 else
-   status_ssh="${RED}SSH/Tunnel Service Is Not Running ${NC}( Not Aktif )"
+      swstls=$AKTIF
+      mantap+=("hore2")
 fi
 
-# Status Service  Squid 
-if [[ $squid_service == "running" ]]; then 
-   status_squid="${GREEN}Squid Service Is Running ${NC}( Aktif )"
+if [[ $wsopen == "" ]]; then
+      swsopen=$ERROR
+      ingfo+=("WebSocket OpenSSH")
+      dahlah+=("err3")
 else
-   status_squid="${RED}Squid Service Is Not Running ${NC}( Not Aktif )"
+      swsopen=$AKTIF
+      mantap+=("hore3")
 fi
 
-# Status Service  VNSTAT 
-if [[ $vnstat_service == "running" ]]; then 
-   status_vnstat="${GREEN}Vnstat Service Is Running ${NC}( Aktif )"
+if [[ $wsovpn == "" ]]; then
+      swsovpn=$ERROR
+      ingfo+=("WebSocket OpenVPN")
+      dahlah+=("err4")
 else
-   status_vnstat="${RED}Vnstat Service Is Not Running ${NC}( Not Aktif )"
+      swsovpn=$AKTIF
+      mantap+=("hore4")
 fi
 
-# Status Service  Crons 
-if [[ $cron_service == "running" ]]; then 
-   status_cron="${GREEN}Crons Service Is Running ${NC}( Aktif )"
+if [[ $v2ray == "" ]]; then
+      sv2ray=$ERROR
+      ingfo+=("V2ray/VMess TLS")
+      dahlah+=("err5")
 else
-   status_cron="${RED}Crons Service Is Not Running ${NC}( Not Aktif )"
+      sv2ray=$AKTIF
+      mantap+=("hore5")
 fi
 
-# Status Service  Fail2ban 
-if [[ $fail2ban_service == "running" ]]; then 
-   status_fail2ban="${GREEN}Fail2Ban Service Is Running ${NC}( Aktif )"
+if [[ $v2none == "" ]]; then
+      sv2none=$ERROR
+      ingfo+=("V2ray/VMess NON-TLS")
+      dahlah+=("err6")
 else
-   status_fail2ban="${RED}Fail2Ban Service Is Not Running ${NC}( Not Aktif )"
+      sv2none=$AKTIF
+      mantap+=("hore6")
 fi
 
-# Status Service  TLS 
-if [[ $tls_v2ray_status == "running" ]]; then 
-   status_tls_v2ray="${GREEN}V2Ray HTTPS Service Is Running${NC} ( Aktif )"
+if [[ $vless == "" ]]; then
+      svless=$ERROR
+      ingfo+=("V2ray/VLess TLS")
+      dahlah+=("err7")
 else
-   status_tls_v2ray="${RED}V2Ray HTTPS Service Is Not Running${NC} ( Not Aktif )"
+      svless=$AKTIF
+      mantap+=("hore7")
 fi
 
-# Status Service Non TLS V2Ray
-if [[ $nontls_v2ray_status == "running" ]]; then 
-   status_nontls_v2ray="${GREEN}V2Ray HTTP Service Is Running ${NC}( Aktif )${NC}"
+if [[ $vnone == "" ]]; then
+      svnone=$ERROR
+      ingfo+=("V2ray/VLess NON-TLS")
+      dahlah+=("err8")
 else
-   status_nontls_v2ray="${RED}V2Ray HTTP Service Is Not Running ${NC}( Not Aktif )${NC}"
+      svnone=$AKTIF
+      mantap+=("hore8")
 fi
 
-# Status Service Vless HTTPS
-if [[ $vless_tls_v2ray_status == "running" ]]; then
-  status_tls_vless="${GREEN}Vless HTTPS Service Is Running${NC} ( Aktif )"
+if [[ $trojan == "" ]]; then
+      strojan=$ERROR
+      ingfo+=("TrojanGFW")
+      dahlah+=("err9")
 else
-  status_tls_vless="${RED}Vless HTTPS Service Is Not Running ${NC}( Not Aktif )${NC}"
+      strojan=$AKTIF
+      mantap+=("hore9")
 fi
 
-# Status Service Vless HTTP
-if [[ $vless_nontls_v2ray_status == "running" ]]; then
-  status_nontls_vless="${GREEN}Vless HTTP Service Is Running${NC} ( Aktif )"
+if [[ $trojang == "" ]]; then
+      strojang=$ERROR
+      ingfo+=("TrojanGO")
+      dahlah+=("erre")
 else
-  status_nontls_vless="${RED}Vless HTTP Service Is Not Running ${NC}( Not Aktif )${NC}"
+      strojang=$AKTIF
+      mantap+=("horee")
 fi
 
-# ShadowsocksR Status
-if [[ $ssr_status == "running" ]] ; then
-  status_ssr="${GREEN}SSR Service Is Running${NC} ( Aktif )${NC}"
+if [[ $ipsec == "" ]]; then
+      sipsec=$ERROR
+      ingfo+=("IPSec Services")
+      dahlah+=("err10")
 else
-  status_ssr="${RED}SSR Service Is Not Running ${NC}( Not Aktif )${NC}"
+      sipsec=$AKTIF
+      mantap+=("hore10")
 fi
 
-# Sodosok
-if [[ $status_text == "active" ]] ; then
-  status_sodosok="${GREEN}Shadowsock Service Is Running${NC} ( Aktif )${NC}"
+if [[ $shadow == "" ]]; then
+      sshadow=$ERROR
+      ingfo+=("Shadowsocks OBFS")
+      dahlah+=("err11")
 else
-  status_sodosok="${RED}Shadowsocks Service Is Not Running ${NC}( Not Aktif )${NC}"
+      sshadow=$AKTIF
+      mantap+=("hore11")
 fi
 
-# Status Service Trojan
-if [[ $trojan_server == "running" ]]; then 
-   status_virus_trojan="${GREEN}Trojan Service Is Running ${NC}( Aktif )${NC}"
+if [[ $ssr == "" ]]; then
+      sssr=$ERROR
+      ingfo+=("ShadowsocksR/SSR")
+      dahlah+=("err12")
 else
-   status_virus_trojan="${RED}Trojan Service Is Not Running ${NC}( Not Aktif )${NC}"
+      sssr=$AKTIF
+      mantap+=("hore12")
 fi
 
-# Status Service Wireguard
-if [[ $swg == "active" ]]; then
-  status_wg="${GREEN}Wireguard Service Is Running ${NC}( Aktif )${NC}"
+if [[ $sstp == "" ]]; then
+      ssstp=$ERROR
+      ingfo+=("SSTP")
+      dahlah+=("err13")
 else
-  status_wg="${RED}Wireguard Service Is Not Running ${NC}( Not Aktif )${NC}"
+      ssstp=$AKTIF
+      mantap+=("hore13")
 fi
 
-# Status Service L2TP
-if [[ $l2tp_status == "running" ]]; then 
-   status_l2tp="${GREEN}L2TP Service Is Running${NC} ( Aktif )${NC}"
+if [[ $l2tp == "" ]]; then
+      sl2tp=$ERROR
+      ingfo+=("L2TP")
+      dahlah+=("err14")
 else
-   status_l2tp="${RED}L2TP Service Is Not Running${NC}( Not Aktif )${NC}"
+      sl2tp=$AKTIF
+      mantap+=("hore14")
 fi
 
-# Status Service Dropbear
-if [[ $dropbear_status == "running" ]]; then 
-   status_beruangjatuh="${GREEN}Dropbear Service Is Running${NC} ( Aktif )${NC}"
+if [[ $pptp == "" ]]; then
+      spptp=$ERROR
+      ingfo+=("PPTP")
+      dahlah+=("err15")
 else
-   status_beruangjatuh="${RED}Dropbear Service Is Not Running ${NC}( Not Aktif )${NC}"
+      spptp=$AKTIF
+      mantap+=("hore15")
 fi
 
-# Status Service Stunnel
-if [[ $stunnel_service == "running" ]]; then 
-   status_stunnel="${GREEN}Stunnel Service Is Running ${NC}( Aktif )"
+if [[ $wg == "" ]]; then
+      swg=$ERROR
+      ingfo+=("Wireguard")
+      dahlah+=("err16")
 else
-   status_stunnel="${RED}Stunnel Service Is Not Running ${NC}( Not Aktif )}"
+      swg=$AKTIF
+      mantap+=("hore16")
 fi
 
-# Status Service SSTP
-if [[ $sstp_service == "running" ]]; then 
-   status_sstp="${GREEN}SSTP Service Is Running ${NC}( Aktif )"
+if [[ $ssh == "" ]]; then
+      sssh=$ERROR
+      ingfo+=("OpenSSH")
+      dahlah+=("err17")
 else
-   status_sstp="${RED}SSTP Service Is Not Running ${NC}( Not Aktif )"
+      sssh=$AKTIF
+      mantap+=("hore17")
+fi
+
+if [[ $ssl == "" ]]; then
+      sssl=$ERROR
+      ingfo+=("Stunnel4")
+      dahlah+=("err18")
+else
+      sssl=$AKTIF
+      mantap+=("hore18")
+fi
+
+if [[ $drop == "" ]]; then
+      sdrop=$ERROR
+      ingfo+=("Dropbear")
+      dahlah+=("err19")
+else
+      sdrop=$AKTIF
+      mantap+=("hore19")
+fi
+
+if [[ $ovpn == "" ]]; then
+      sovpn=$ERROR
+      ingfo+=("OpenVPN")
+      dahlah+=("err20")
+else
+      sovpn=$AKTIF
+      mantap+=("hore20")
+fi
+
+if [[ $nginx == "" ]]; then
+      snginx=$ERROR
+      ingfo+=("Nginx")
+      dahlah+=("err21")
+else
+      snginx=$AKTIF
+      mantap+=("hore21")
+fi
+
+if [[ $squid == "" ]]; then
+      ssquid=$ERROR
+      ingfo+=("Squid")
+      dahlah+=("err22")
+else
+      ssquid=$AKTIF
+      mantap+=("hore22")
+fi
+
+if [[ $cron == "" ]]; then
+      scron=$ERROR
+      ingfo+=("Cron Services")
+      dahlah+=("err23")
+else
+      scron=$AKTIF
+      mantap+=("hore23")
+fi
+
+if [[ $fail2ban == "" ]]; then
+      sfail2ban=$ERROR
+      ingfo+=("Fail2Ban Services")
+      dahlah+=("err24")
+else
+      sfail2ban=$AKTIF
+      mantap+=("hore24")
+fi
+
+if [[ $vnstat == "" ]]; then
+      svnstat=$ERROR
+      ingfo+=("VnStats Services")
+      dahlah+=("err25")
+else
+      svnstat=$AKTIF
+      mantap+=("hore25")
+fi
+
+
+
+#jumlah1="${#mantap[@]}"
+#jumlah2="${#dahlah[@]}"
+
+if [[ $jumlah1 == "" ]] || [[ $jumlah1 -eq 0 ]]; then
+     jumlah_aktif=0
+else
+     let njor=${jumlah1}
+     jumlah_aktif=$njor
+fi
+
+if [[ $jumlah2 == "" ]] || [[ $jumlah2 -eq 0 ]]; then
+    jumlah_error=0
+else
+    let njir=${jumlah2}
+    jumlah_error=$njir
 fi
 
 # Ram Usage
 total_r2am=` grep "MemAvailable: " /proc/meminfo | awk '{ print $2}'`
 MEMORY=$(($total_r2am/1024))
 
-# Download
-download=`grep -e "lo:" -e "wlan0:" -e "eth0" /proc/net/dev  | awk '{print $2}' | paste -sd+ - | bc`
-downloadsize=$(($download/1073741824))
-
-# Upload
-upload=`grep -e "lo:" -e "wlan0:" -e "eth0" /proc/net/dev | awk '{print $10}' | paste -sd+ - | bc`
-uploadsize=$(($upload/1073741824))
 
 # Total Ram
 total_ram=` grep "MemTotal: " /proc/meminfo | awk '{ print $2}'`
@@ -281,20 +400,20 @@ echo -e "OS BASE     : $basedong"
 echo -e "OS TYPE     : Linux / Unix"
 echo -e "Bash Ver    : $versibash"
 echo -e "Kernel Ver  : $kernelku"
-echo "-------------------------------------------------------------------------------" | lolcat 
-echo "Hardware Information :" | lolcat 
-echo -e "Processor   : $tipeprosesor"
-echo -e "Proc Core   : $totalcore"
-echo -e "Virtual     : $typevps"
-echo -e "Cpu Usage   : $cpu_usage"
-echo "-------------------------------------------------------------------------------" | lolcat 
-echo "System Status / System Information :" | lolcat 
-echo -e "Uptime      : $uptime ( From VPS Booting )"
 echo -e "Total RAM   : ${totalram}MB"
-echo -e "Avaible     : ${MEMORY}MB"
-echo -e "Download    : $downloadsize GB ( From Startup / VPS Booting )"
-echo -e "Upload      : $uploadsize GB ( From Startup / VPS Booting )"
 echo "-------------------------------------------------------------------------------" | lolcat 
+#echo "Hardware Information :" | lolcat 
+#echo -e "Processor   : $tipeprosesor"
+#echo -e "Proc Core   : $totalcore"
+#echo -e "Virtual     : $typevps"
+#echo -e "Cpu Usage   : $cpu_usage"
+#echo "-------------------------------------------------------------------------------" | lolcat 
+#echo "System Status / System Information :" | lolcat 
+#echo -e "Uptime      : $uptime ( From VPS Booting )"
+#echo -e "Avaible     : ${MEMORY}MB"
+#echo -e "Download    : $downloadsize GB ( From Startup / VPS Booting )"
+#echo -e "Upload      : $uploadsize GB ( From Startup / VPS Booting )"
+#echo "-------------------------------------------------------------------------------" | lolcat 
 echo "Internet Service Provider Information :" | lolcat 
 echo -e "Public IP   : $MYIP"
 echo -e "Domain      : $Domen"
@@ -312,23 +431,31 @@ echo -e "Date        : $harini"
 echo -e "Time        : $jam ( WIB )"
 echo "-------------------------------------------------------------------------------" | lolcat 
 echo "System Status Information :" | lolcat 
-echo -e "SSH / Tun   : $status_ssh"
-echo -e "OpenVPN     : $status_openvpn"
-echo -e "Dropbear    : $status_beruangjatuh"
-echo -e "Stunnel     : $status_stunnel"
-echo -e "Squid       : $status_squid"
-echo -e "Fail2Ban    : $status_fail2ban"
-echo -e "Crons       : $status_cron"
-echo -e "Vnstat      : $status_vnstat"
-echo -e "L2TP        : $status_l2tp"
-echo -e "SSTP        : $status_sstp"
-echo -e "V2Ray TLS   : $status_tls_v2ray"
-echo -e "V2Ray HTTP  : $status_nontls_v2ray"
-echo -e "Vless TLS   : $status_tls_vless"
-echo -e "Vless HTTP  : $status_nontls_vless"
-echo -e "SSR         : $status_ssr"
-echo -e "Shadowsocks : $status_sodosok"
-echo -e "Trojan      : $status_virus_trojan"
-echo -e "Wireguard   : $status_wg"
+echo -e "   - Dropbear                  : $sdrop "
+echo -e "   - OpenSSH                   : $sssh "
+echo -e "   - Stunnel4                  : $sssl "
+echo -e "   - OpenVPN                   : $sovpn "
+echo -e "   - WebSocket Dropbear        : $swsdrop"
+#echo -e "   - WebSocket OpenSSH        : $swsopen"
+echo -e "   - WebSocket OpenVPN         : $swsovpn"
+echo -e "   - WebSocket TLS             : $swstls"
+echo -e "   - VMess TLS                 : $sv2ray "
+echo -e "   - VMess NON-TLS             : $sv2none "
+echo -e "   - VLess TLS                 : $svless "
+echo -e "   - VLess NON-TLS             : $svnone "
+echo -e "   - Shadowsocks               : $sshadow "
+echo -e "   - Wireguard                 : $swg "
+echo -e "   - TrojanGFW                 : $strojan "
+#echo -e "   - TrojanGO                 : $strojang "
+echo -e "   - IPSec                     : $sipsec "
+echo -e "   - SSR                       : $sssr "
+echo -e "   - SSTP                      : $ssstp "
+echo -e "   - PPTP                      : $spptp "
+echo -e "   - L2TP                      : $sl2tp"
+echo -e "   - Nginx                     : $snginx "
+echo -e "   - Squid                     : $ssquid "
+echo -e "   - Cron                      : $scron "
+echo -e "   - Fail2Ban                  : $sfail2ban "
+echo -e "   - VnStats
 echo "------------------------------------------------------------------------" | lolcat 
 echo ""
