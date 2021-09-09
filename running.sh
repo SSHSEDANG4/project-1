@@ -11,6 +11,7 @@ else
 		lan_net="eth0"
     typevps="KVM"
 fi
+clear
 
 # Getting OS Information
 source /etc/os-release
