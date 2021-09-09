@@ -75,6 +75,9 @@ fail2ban_service=$(/etc/init.d/fail2ban status | grep Active | awk '{print $3}' 
 wg="$(systemctl show wg-quick@wg0.service --no-page)"
 swg=$(echo "${wg}" | grep 'ActiveState=' | cut -f2 -d=)
 sswg=$(systemctl status wg-quick@wg0 | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+wsdrop=$(systemctl status ws-dropbear | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+wstls=$(systemctl status ws-stunnel | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+wsovpn=$(systemctl status edu-ovpn | grep -i "active (running)")
 
 # Color Validation
 RED='\033[0;31m'
@@ -213,6 +216,28 @@ else
    status_sstp="${RED}SSTP Service Is Not Running ${NC}( Not Aktif )"
 fi
 
+# Status Service Ws-Dropbear
+if [[ $wsdrop == "running" ]]; then 
+   status_vnstat="${GREEN}Vnstat Service Is Running ${NC}( Aktif )"
+else
+   status_vnstat="${RED}Vnstat Service Is Not Running ${NC}( Not Aktif )"
+fi
+
+# Status Service Ws-Stunnel
+if [[ $wstls == "running" ]]; then 
+   status_vnstat="${GREEN}Vnstat Service Is Running ${NC}( Aktif )"
+else
+   status_vnstat="${RED}Vnstat Service Is Not Running ${NC}( Not Aktif )"
+fi
+
+# Status Service ws-Ovpn 
+if [[ $wsovpn == "running" ]]; then 
+   status_vnstat="${GREEN}Vnstat Service Is Running ${NC}( Aktif )"
+else
+   status_vnstat="${RED}Vnstat Service Is Not Running ${NC}( Not Aktif )"
+fi
+
+
 # Ram Usage
 total_r2am=` grep "MemAvailable: " /proc/meminfo | awk '{ print $2}'`
 MEMORY=$(($total_r2am/1024))
@@ -281,19 +306,7 @@ echo -e "OS BASE     : $basedong"
 echo -e "OS TYPE     : Linux / Unix"
 echo -e "Bash Ver    : $versibash"
 echo -e "Kernel Ver  : $kernelku"
-echo "-------------------------------------------------------------------------------" | lolcat 
-echo "Hardware Information :" | lolcat 
-echo -e "Processor   : $tipeprosesor"
-echo -e "Proc Core   : $totalcore"
-echo -e "Virtual     : $typevps"
-echo -e "Cpu Usage   : $cpu_usage"
-echo "-------------------------------------------------------------------------------" | lolcat 
-echo "System Status / System Information :" | lolcat 
-echo -e "Uptime      : $uptime ( From VPS Booting )"
 echo -e "Total RAM   : ${totalram}MB"
-echo -e "Avaible     : ${MEMORY}MB"
-echo -e "Download    : $downloadsize GB ( From Startup / VPS Booting )"
-echo -e "Upload      : $uploadsize GB ( From Startup / VPS Booting )"
 echo "-------------------------------------------------------------------------------" | lolcat 
 echo "Internet Service Provider Information :" | lolcat 
 echo -e "Public IP   : $MYIP"
@@ -303,32 +316,30 @@ echo -e "Region      : $REGION "
 echo -e "Country     : $COUNTRY"
 echo -e "City        : $CITY "
 echo -e "Time Zone   : $WAKTUE"
-echo "-------------------------------------------------------------------------------" | lolcat 
-echo "Time & Date & Location & Coordinate Information :" | lolcat 
-echo -e "Location    : $COUNTRY"
-echo -e "Coordinate  : $koordinat"
-echo -e "Time Zone   : $WAKTUE"
 echo -e "Date        : $harini"
 echo -e "Time        : $jam ( WIB )"
 echo "-------------------------------------------------------------------------------" | lolcat 
-echo "System Status Information :" | lolcat 
-echo -e "SSH / Tun   : $status_ssh"
-echo -e "OpenVPN     : $status_openvpn"
-echo -e "Dropbear    : $status_beruangjatuh"
-echo -e "Stunnel     : $status_stunnel"
-echo -e "Squid       : $status_squid"
-echo -e "Fail2Ban    : $status_fail2ban"
-echo -e "Crons       : $status_cron"
-echo -e "Vnstat      : $status_vnstat"
-echo -e "L2TP        : $status_l2tp"
-echo -e "SSTP        : $status_sstp"
-echo -e "V2Ray TLS   : $status_tls_v2ray"
-echo -e "V2Ray HTTP  : $status_nontls_v2ray"
-echo -e "Vless TLS   : $status_tls_vless"
-echo -e "Vless HTTP  : $status_nontls_vless"
-echo -e "SSR         : $status_ssr"
-echo -e "Shadowsocks : $status_sodosok"
-echo -e "Trojan      : $status_virus_trojan"
-echo -e "Wireguard   : $status_wg"
+echo "========================[System Status Information]============================" | lolcat 
+echo -e "SSH / Tun           : $status_ssh"
+echo -e "WebSocket Dropbear  : $wsdrop"
+echo -e "WebSocket OpenVPN   : $wsovpn"
+echo -e "WebSocket TLS       : $wstls"
+echo -e "OpenVPN             : $status_openvpn"
+echo -e "Dropbear            : $status_beruangjatuh"
+echo -e "Stunnel             : $status_stunnel"
+echo -e "Squid               : $status_squid"
+echo -e "Fail2Ban            : $status_fail2ban"
+echo -e "Crons               : $status_cron"
+echo -e "Vnstat              : $status_vnstat"
+echo -e "L2TP                : $status_l2tp"
+echo -e "SSTP                : $status_sstp"
+echo -e "V2Ray TLS           : $status_tls_v2ray"
+echo -e "V2Ray HTTP          : $status_nontls_v2ray"
+echo -e "Vless TLS           : $status_tls_vless"
+echo -e "Vless HTTP          : $status_nontls_vless"
+echo -e "SSR                 : $status_ssr"
+echo -e "Shadowsocks         : $status_sodosok"
+echo -e "Trojan              : $status_virus_trojan"
+echo -e "Wireguard           : $status_wg"
 echo "------------------------------------------------------------------------" | lolcat 
 echo ""
