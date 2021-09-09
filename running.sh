@@ -322,8 +322,8 @@ fi
 
 
 
-#jumlah1="${#mantap[@]}"
-#jumlah2="${#dahlah[@]}"
+jumlah1="${#mantap[@]}"
+jumlah2="${#dahlah[@]}"
 
 if [[ $jumlah1 == "" ]] || [[ $jumlah1 -eq 0 ]]; then
      jumlah_aktif=0
@@ -457,5 +457,27 @@ echo -e "   - Squid                     : $ssquid "
 echo -e "   - Cron                      : $scron "
 echo -e "   - Fail2Ban                  : $sfail2ban "
 echo -e "   - VnStats
-echo "------------------------------------------------------------------------" | lolcat 
-echo ""
+echo "------------------------------------------------------------------------" | lolcat
+echo -e ""
+echo -e "  - Jumlah Services Running [ ${green}$jumlah_aktif${off} ]"
+echo -e "  - Jumlah Services Error [ ${red}$jumlah_error${off} ]"
+
+if [[ "${ingfo[@]}" != "" ]]; then
+      echo -e ""
+      echo -e "  ${red} !!! Peringatan !!!${off}"
+for oo in "${ingfo[@]}"
+  do
+       echo -e "  - [${red} ${oo} ${off}] ${red}Error !!!${off}"
+done
+echo -e ""
+min=0
+sec=30
+                while [ $min -ge 0 ]; do
+                        while [ $sec -ge 0 ]; do
+                                echo -ne " [#]  ${cyan}Auto Restart Services Dalam${off} [${green} $min:$sec ${off}]\033[0K\r"
+                                 let "sec=sec-1"
+                                 sleep 1
+            done
+            sec=59
+            let "min=min-1"            
+      done
